@@ -9,12 +9,11 @@ public:
 	void FillFromStream(std::istream& strm)
 	{
 		std::string line;
+		
 		std::getline(strm, line);
-		size_t matrixSize = line.length();
-
-		m_matrix.assign(matrixSize, std::vector<bool>());
-		for (size_t i = 0; i < matrixSize; ++i)
+		for (size_t i = 0; !strm.eof() && !strm.fail(); ++i)
 		{
+			m_matrix.push_back({});
 			FillBoolVectorFromLine(line, m_matrix[i], '1', '0');
 			std::getline(strm, line);
 		}

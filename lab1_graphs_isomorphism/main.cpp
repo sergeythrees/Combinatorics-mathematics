@@ -5,8 +5,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	string path1 = "1.txt";
-	string path2 = "2.txt";
+	string path1 = "M1.csv";
+	string path2 = "M2.csv";
 	if (IsValidArgumentsCount(argc, 3))
 	{
 		path1 = argv[1];

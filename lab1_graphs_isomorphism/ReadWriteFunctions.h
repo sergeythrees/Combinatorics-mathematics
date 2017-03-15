@@ -27,3 +27,4 @@ void PrintMapToStream(const std::map<A, B>& map, std::ostream& strm)
 	}
 	strm << std::endl;
 }
+

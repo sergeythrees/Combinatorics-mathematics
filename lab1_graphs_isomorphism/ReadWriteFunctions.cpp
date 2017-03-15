@@ -10,6 +10,7 @@ void FillBoolVectorFromLine(std::string & line, std::vector<bool> & vect, char i
 	char elem;
 	while (stream >> elem)
 	{
+		if (elem == ifTrue || elem == ifFalse)
 		vect.push_back(elem == ifTrue);
 	}
 }
