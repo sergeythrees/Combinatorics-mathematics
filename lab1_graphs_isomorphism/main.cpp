@@ -4,31 +4,41 @@
 using namespace std;
 
 int main(int argc, char *argv[])
-{
-	string path1 = "M1.csv";
-	string path2 = "M2.csv";
-	if (IsValidArgumentsCount(argc, 3))
+{	
+	map<map<size_t, size_t>, string> graphsFormulas;
+	map<map<size_t, size_t>, vector<string>> isomorphGraphs;
+	for (int argumentIndex = 1; argumentIndex < argc ; ++argumentIndex)
 	{
-		path1 = argv[1];
-		path2 = argv[2];
+		ifstream strm(argv[argumentIndex]);
+		CGraph graph(strm);
+		auto cycles = graph.GetCyclesCounts();
+		if (graphsFormulas.find(cycles) != graphsFormulas.end())
+		{
+			if (isomorphGraphs.find(cycles) != isomorphGraphs.end())
+			{
+				isomorphGraphs.at(cycles).push_back(argv[argumentIndex]);
+			}
+			else
+			{
+				isomorphGraphs.emplace(cycles, 
+					vector<string>(
+						{ graphsFormulas.at(cycles) ,argv[argumentIndex] }));
+			}
+		}
+		graphsFormulas.emplace(cycles, argv[argumentIndex]);
+		cout << "Graph " << argv[argumentIndex] << " formula: ";
+		PrintMapToStream(cycles, cout);
+		cout << endl;
 	}
-	ifstream input1(path1);
-	ifstream input2(path2);
-	CGraph graph1;
-	CGraph graph2;
 
-	graph1.FillFromStream(input1);
-	graph2.FillFromStream(input2);
-
-	auto cyclesCounts1 = graph1.GetCyclesCounts();
-	auto cyclesCounts2 = graph2.GetCyclesCounts();
-
-	cout << "Graphs have the following counts of cycles:" << endl;
-
-	PrintMapToStream(cyclesCounts1, cout);
-	PrintMapToStream(cyclesCounts2, cout);
-
-	cout << "Graphs are " << ((cyclesCounts1 == cyclesCounts2) ? "isomorphic" : "not isomorphic")
-		<< endl;
+	cout << "Isomorph graphs " << endl;
+	for (auto current : isomorphGraphs)
+	{
+		for (auto curr : current.second)
+		{
+			cout << curr << " ";
+		}
+		cout << endl;
+	}
+	
 }
-

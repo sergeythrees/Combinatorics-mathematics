@@ -23,8 +23,6 @@ void PrintMapToStream(const std::map<A, B>& map, std::ostream& strm)
 {
 	for (auto pair : map)
 	{
-		strm << pair << " ";
+		strm << pair.first << "(" << pair.second << ") ";
 	}
-	strm << std::endl;
 }
-

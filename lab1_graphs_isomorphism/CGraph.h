@@ -5,6 +5,11 @@
 class CGraph
 {
 public:
+	CGraph(std::istream& strm)
+		:m_matrix()
+	{
+		FillFromStream(strm);
+	}
 
 	void FillFromStream(std::istream& strm)
 	{
@@ -21,20 +26,25 @@ public:
 
 	std::map<size_t, size_t>  GetCyclesCounts()
 	{
-		std::vector<size_t> cycle;
-		std::map<size_t, size_t>  cyclesCounts;
-
-		size_t cycleBegin = SIZE_MAX;
-		for (size_t row = 0; row < m_matrix.size(); ++row)
+		if (m_cyclesCounts.empty())
 		{
-			FindCycle(m_matrix, row, cycle, cyclesCounts, cycleBegin);
-		}
 
-		return cyclesCounts;
+			std::vector<size_t> cycle;
+			std::map<size_t, size_t>  cyclesCounts;
+
+			size_t cycleBegin = SIZE_MAX;
+			for (size_t row = 0; row < m_matrix.size(); ++row)
+			{
+				FindCycle(m_matrix, row, cycle, cyclesCounts, cycleBegin);
+			}
+			m_cyclesCounts = cyclesCounts;
+		}
+		return m_cyclesCounts;
 	}
 
 private:
 	std::vector<std::vector<bool>> m_matrix;
+	std::map<size_t, size_t> m_cyclesCounts;
 
 	void FindCycle(std::vector<std::vector<bool>> & matrix,
 		size_t row, std::vector<size_t> & cycle,
