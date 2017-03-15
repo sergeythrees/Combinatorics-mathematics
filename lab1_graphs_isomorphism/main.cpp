@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 		cout << endl;
 	}
 
-	cout << "Isomorph graphs " << endl;
+	cout << "Isomorph graphs:" << endl;
 	for (auto current : isomorphGraphs)
 	{
 		for (auto curr : current.second)
