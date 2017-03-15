@@ -3,10 +3,17 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-	ifstream input1("1.txt");
-	ifstream input2("2.txt");
+	string path1 = "1.txt";
+	string path2 = "2.txt";
+	if (IsValidArgumentsCount(argc, 3))
+	{
+		path1 = argv[1];
+		path2 = argv[2];
+	}
+	ifstream input1(path1);
+	ifstream input2(path2);
 	CGraph graph1;
 	CGraph graph2;
 
@@ -17,8 +24,9 @@ int main()
 	auto cyclesCounts2 = graph2.GetCyclesCounts();
 
 	cout << "Graphs have the following counts of cycles:" << endl;
-	PrintVectorToStream(cyclesCounts1, cout);
-	PrintVectorToStream(cyclesCounts2, cout);
+
+	PrintMapToStream(cyclesCounts1, cout);
+	PrintMapToStream(cyclesCounts2, cout);
 
 	cout << "Graphs are " << ((cyclesCounts1 == cyclesCounts2) ? "isomorphic" : "not isomorphic")
 		<< endl;

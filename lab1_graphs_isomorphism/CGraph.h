@@ -20,17 +20,16 @@ public:
 		}
 	}
 
-	std::vector<size_t>  GetCyclesCounts()
+	std::map<size_t, size_t>  GetCyclesCounts()
 	{
 		std::vector<size_t> cycle;
-		std::vector<size_t> cyclesCounts;
+		std::map<size_t, size_t>  cyclesCounts;
 
 		size_t cycleBegin = SIZE_MAX;
 		for (size_t row = 0; row < m_matrix.size(); ++row)
 		{
 			FindCycle(m_matrix, row, cycle, cyclesCounts, cycleBegin);
 		}
-		sort(cyclesCounts.begin(), cyclesCounts.end());
 
 		return cyclesCounts;
 	}
@@ -40,7 +39,7 @@ private:
 
 	void FindCycle(std::vector<std::vector<bool>> & matrix,
 		size_t row, std::vector<size_t> & cycle,
-		std::vector<size_t> & cyclesCounts, size_t & cycleBegin)
+		std::map<size_t, size_t> & cyclesCounts, size_t & cycleBegin)
 	{
 		for (size_t column = 0; column < matrix[row].size(); ++column)
 		{
@@ -55,7 +54,14 @@ private:
 				if (column == cycleBegin)
 				{
 					cycleBegin = SIZE_MAX;
-					cyclesCounts.push_back(cycle.size());
+					if (cyclesCounts.find(cycle.size()) == cyclesCounts.end())
+					{
+						cyclesCounts.emplace(cycle.size(), 1);
+					}
+					else
+					{
+						++(cyclesCounts.at(cycle.size()));
+					}
 					cycle = std::vector<size_t>();
 					break;
 				}
